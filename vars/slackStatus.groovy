@@ -13,10 +13,10 @@ def call(String name, Boolean failed=false) {
     if (pr) {
         //Get the matched group with the number
         prNum = pr[0][1]
-        msg = "(<${githubURL}|${name}) <${env.RUN_DISPLAY_URL}|Deploy> of <${githubURL}/pulls/${prNum}|${commitMsg}> -- ${status}"
+        msg = "(<${githubURL}|${name}>) <${env.RUN_DISPLAY_URL}|Deploy> of <${githubURL}/pulls/${prNum}|${commitMsg}> -- ${status}"
     }
     else {
-        msg = "(<${githubURL}|${name}) <${env.RUN_DISPLAY_URL}|Deploy> of <${githubURL}/commit/${env.GIT_COMMIT}|${commitMsg}> -- ${status}"
+        msg = "(<${githubURL}|${name}>) <${env.RUN_DISPLAY_URL}|Deploy> of <${githubURL}/commit/${env.GIT_COMMIT}|${commitMsg}> -- ${status}"
     }
 
     slackSend color: colorCode, message: msg
