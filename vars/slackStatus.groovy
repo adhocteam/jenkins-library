@@ -41,7 +41,7 @@ def call(String name, Boolean failed=false) {
                     title: 'Committer',
                     value: author,
                     short: true
-                ]
+                ],
                 [
                     title: ':github:',
                     value: githubLink,
