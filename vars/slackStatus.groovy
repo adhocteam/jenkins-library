@@ -6,7 +6,7 @@ def call(String name, Boolean failed=false) {
     githubURL = env.GIT_URL[0..-5]
 
     // Gets the last commit message and the committer's name
-    commitMsg = sh(returnStdout: true, script: 'git log -1 --pretty="%s <%an>"').trim()
+    commitMsg = sh(returnStdout: true, script: 'git log -1 --pretty="%s by %an"').trim()
     // Look for a PR number in the message
     pr = commitMsg =~ /.*#([0-9]*).*/
 
