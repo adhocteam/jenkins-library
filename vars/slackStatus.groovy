@@ -43,7 +43,7 @@ def call(String name, Boolean failed=false) {
                 ]
                 [
                     title: ':github:',
-                    value: "<${githubURL}|${repoName}>,
+                    value: "<${githubURL}|${repoName}>",
                     short: true
                 ]
             ],
