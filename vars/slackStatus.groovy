@@ -1,3 +1,5 @@
+import groovy.json.JsonBuilder
+
 def call(String name, Boolean failed=false) {
     colorCode = failed ? 'danger' : 'good'
     status = failed ? 'Failed' : 'Success'
@@ -8,7 +10,7 @@ def call(String name, Boolean failed=false) {
     // Gets the last commit message and the committer's name
     commitMsg = sh(returnStdout: true, script: 'git log -1 --pretty="%s by %an"').trim()
     // Look for a PR number in the message
-    pr = commitMsg =~ /.*#([0-9]*).*/
+    pr = commitMsg =~ /.*#([0-9]+).*/
 
     if (pr) {
         //Get the matched group with the number
