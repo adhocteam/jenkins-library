@@ -7,6 +7,7 @@ def call(String name, Boolean failed=false) {
     // Strip .git from the end
     githubURL = env.GIT_URL[0..-5]
     repoName = (env.GIT_URL =~ /.*\/([^\/]+).git/)[0][1]
+    githubLink = "<${githubURL}|${repoName}>"
 
     // Gets the last commit message and the committer's name
     shortMsg = sh(returnStdout: true, script: 'git log -1 --pretty="%s"').trim()
@@ -43,7 +44,7 @@ def call(String name, Boolean failed=false) {
                 ]
                 [
                     title: ':github:',
-                    value: "<${githubURL}|${repoName}>",
+                    value: githubLink,
                     short: true
                 ]
             ],
