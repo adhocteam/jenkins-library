@@ -3,7 +3,7 @@ import groovy.json.JsonOutput
 def call(String name, Boolean failed=false) {
     def colorCode = failed ? '#FF0000' : '#118762'
     def attachment = getAttachment(name, failed)
-    slackSend color: colorCode, attachments: attachment
+    slackSend color: colorCode, attachments: attachment.trim()
 }
 
 @NonCPS
