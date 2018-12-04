@@ -2,6 +2,13 @@ import groovy.json.JsonOutput
 
 def call(String name, Boolean failed=false) {
     def colorCode = failed ? '#FF0000' : '#118762'
+    def attachment = getAttachment(name, failed)
+    slackSend color: colorCode, channel: '@bob', attachments: attachment
+}
+
+@NonCPS
+def getAttachment(String name, Boolean failed=false) {
+    def colorCode = failed ? '#FF0000' : '#118762'
     def status = failed ? ":no_entry: ${name} Deployment Failed" : ":github-check: ${name} Deployment Success"
 
     // Strip .git from the end
@@ -22,7 +29,7 @@ def call(String name, Boolean failed=false) {
         commitURL = "<${githubURL}/pulls/${pr[0][1]}|PR-${pr[0][1]}>"
     }
 
-    def attachment = JsonOutput.toJson([
+    return JsonOutput.toJson([
         attachments: [[
             fallback: status,
             color: colorCode,
@@ -48,6 +55,4 @@ def call(String name, Boolean failed=false) {
             ],
         ]]]
     )
-
-    slackSend color: colorCode, channel: '@bob', attachments: attachment
 }
