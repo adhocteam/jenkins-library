@@ -2,9 +2,9 @@ import groovy.json.JsonOutput
 
 def call(String name, Boolean failed=false) {
     def colorCode = failed ? '#FF0000' : '#118762'
-    println colorCode
+    echo colorCode
     def attachment = getAttachment(name, failed)
-    println attachment
+    echo attachment
     slackSend color: colorCode, channel: '@bob', message: "Deploy", attachments: attachment
 }
 
@@ -69,17 +69,17 @@ def getAttachment(String name, Boolean failed=false) {
                 [
                     title: ':pr:',
                     value: commitURL,
-                    short: false
+                    'short': false
                 ],
                 [
                     title: 'Committer',
                     value: author,
-                    short: true
+                    'short': true
                 ],
                 [
                     title: ':github:',
                     value: githubLink,
-                    short: true
+                    'short': true
                 ]
             ],
         ]]]
