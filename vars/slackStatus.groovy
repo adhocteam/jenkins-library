@@ -49,5 +49,5 @@ def call(String name, Boolean failed=false) {
         ]]]
     )
 
-    slackSend color: colorCode, channel: '@bob', attachments: msg
+    slackSend color: colorCode, channel: '@bob', attachments: attachment
 }
