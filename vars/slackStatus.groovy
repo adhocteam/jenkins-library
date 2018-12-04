@@ -5,7 +5,7 @@ def call(String name, Boolean failed=false) {
     println colorCode
     def attachment = getAttachment(name, failed)
     println attachment
-    slackSend color: colorCode, attachments: attachment.trim()
+    slackSend color: colorCode, channel: '@bob' attachments: '{"attachments":[{"fallback":":github-check: Hello Deployment Success","color":"#118762","title":":github-check: Hello Deployment Success","title_link":"https://jenkins.adhoc.team","text":"Hello #123","fields":[{"title":":pr:","value":"<https://github.com/adhocteam/keyreport/pulls/123|PR-123>","short":false},{"title":"Committer","value":"Robert Fairhead","short":true},{"title":":github:","value":"<https://github.com/adhocteam/keyreport|keyreport>","short":true}]}]}'
 }
 
 @NonCPS
