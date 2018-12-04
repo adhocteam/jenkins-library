@@ -2,18 +2,30 @@ import groovy.json.JsonOutput
 
 def call(String name, Boolean failed=false) {
     def colorCode = failed ? '#FF0000' : '#118762'
-    def str = JsonOutput.toJson([
-        attachments: [[
-            fallback: "status",
-            color: colorCode,
-            title: "status",
-            title_link: env.RUN_DISPLAY_URL,
-            text: "fullMsg"
-        ]]]
-    )
-    def attach = new JSONArray(str)
+    def json = new groovy.json.JsonBuilder()
+    json {
+        attachments ([
+            {
+                fallback 'Required plain-text summary of the attachment.'
+                color '#36a64f'
+                pretext 'Optional text that appears above the attachment block'
+                author_name 'Bobby Tables'
+                title 'Slack API Documentation'
+                title_link 'https://api.slack.com/'
+                text 'Optional text that appears within the attachment'
+                fields([
+                    {
+                                title 'Priority'
+                                value 'High'
+                                'short' false
+                    }
+                ])
+            }
 
-    slackSend color: colorCode, channel: '@bob', message: "Deploy", attachments: attach
+        ])
+    }
+
+    slackSend color: colorCode, channel: '@bob', message: "Deploy", attachments: json
 }
 
 @NonCPS
