@@ -2,10 +2,16 @@ import groovy.json.JsonOutput
 
 def call(String name, Boolean failed=false) {
     def colorCode = failed ? '#FF0000' : '#118762'
-    echo colorCode
-    def attachment = getAttachment(name, failed)
-    echo attachment
-    slackSend color: colorCode, channel: '@bob', message: "Deploy"
+    def attachment = JsonOutput.toJson([
+        attachments: [[
+            fallback: "status",
+            color: colorCode,
+            title: "status",
+            title_link: env.RUN_DISPLAY_URL,
+            text: "fullMsg"
+        ]]]
+    )
+    slackSend color: colorCode, channel: '@bob', message: "Deploy", attachments: attachment
 }
 
 @NonCPS
@@ -58,30 +64,30 @@ def getAttachment(String name, Boolean failed=false) {
     //     ])
     // }
 
-    return JsonOutput.toJson([
-        attachments: [[
-            fallback: status,
-            color: colorCode,
-            title: status,
-            title_link: env.RUN_DISPLAY_URL,
-            text: fullMsg,
-            fields: [
-                [
-                    title: ':pr:',
-                    value: commitURL,
-                    'short': false
-                ],
-                [
-                    title: 'Committer',
-                    value: author,
-                    'short': true
-                ],
-                [
-                    title: ':github:',
-                    value: githubLink,
-                    'short': true
-                ]
-            ],
-        ]]]
-    )
+    // return JsonOutput.toJson([
+    //     attachments: [[
+    //         fallback: status,
+    //         color: colorCode,
+    //         title: status,
+    //         title_link: env.RUN_DISPLAY_URL,
+    //         text: fullMsg,
+    //         fields: [
+    //             [
+    //                 title: ':pr:',
+    //                 value: commitURL,
+    //                 'short': false
+    //             ],
+    //             [
+    //                 title: 'Committer',
+    //                 value: author,
+    //                 'short': true
+    //             ],
+    //             [
+    //                 title: ':github:',
+    //                 value: githubLink,
+    //                 'short': true
+    //             ]
+    //         ],
+    //     ]]]
+    // )
 }
