@@ -5,7 +5,7 @@ def call(String name, Boolean failed=false) {
     echo colorCode
     def attachment = getAttachment(name, failed)
     echo attachment
-    slackSend color: colorCode, channel: '@bob', message: "Deploy", attachments: attachment
+    slackSend color: colorCode, channel: '@bob', message: "Deploy"
 }
 
 @NonCPS
