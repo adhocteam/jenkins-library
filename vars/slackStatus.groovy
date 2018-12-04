@@ -2,7 +2,7 @@ import groovy.json.JsonOutput
 
 def call(String name, Boolean failed=false) {
     def colorCode = failed ? '#FF0000' : '#118762'
-    def attachment = JsonOutput.toJson([
+    def str = JsonOutput.toJson([
         attachments: [[
             fallback: "status",
             color: colorCode,
@@ -11,7 +11,9 @@ def call(String name, Boolean failed=false) {
             text: "fullMsg"
         ]]]
     )
-    slackSend color: colorCode, channel: '@bob', message: "Deploy", attachments: attachment
+    def attach = new JSONArray(str)
+
+    slackSend color: colorCode, channel: '@bob', message: "Deploy", attachments: attach
 }
 
 @NonCPS
