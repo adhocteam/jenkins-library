@@ -16,12 +16,10 @@ def call(String name, Boolean failed=false) {
     // Look for a PR number in the message
     def pr = shortMsg =~ /.*#([0-9]+).*/
 
+    def commitURL = "<${githubURL}/commit/${env.GIT_COMMIT}|${env.GIT_COMMIT[0..6]}>"
     if (pr) {
         //Get the matched group with the number
-        def commitURL = "<${githubURL}/pulls/${pr[0][1]}|PR-${pr[0][1]}>"
-    }
-    else {
-        def commitURL = "<${githubURL}/commit/${env.GIT_COMMIT}|${env.GIT_COMMIT[0..6]}>"
+        commitURL = "<${githubURL}/pulls/${pr[0][1]}|PR-${pr[0][1]}>"
     }
 
     def attachment = JsonOutput.toJson([
