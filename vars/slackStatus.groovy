@@ -3,17 +3,9 @@ import net.sf.json.JSONObject
 
 def call(String name, Boolean failed=false) {
     def colorCode = failed ? '#FF0000' : '#118762'
+    def attachment = getAttachment(name, failed)
 
-    JSONArray attachments = new JSONArray();
-    JSONObject attachment = new JSONObject();
-
-    attachment.put('text','Here is my text');
-    attachment.put('fallback','Fallback');
-    attachment.put('color',colorCode);
-
-    attachments.add(attachment);
-
-    slackSend(color: colorCode, channel: '@bob', attachments: attachments.toString())
+    slackSend(color: colorCode, channel: '@bob', attachments: attachment)
 }
 
 @NonCPS
@@ -39,57 +31,35 @@ def getAttachment(String name, Boolean failed=false) {
         commitURL = "<${githubURL}/pulls/${pr[0][1]}|PR-${pr[0][1]}>"
     }
 
+    JSONArray attachments = new JSONArray()
+    JSONObject attachment = new JSONObject()
 
-    // def json = new groovy.json.JsonBuilder()
-    // json {
-    //     attachments ([
-    //         {
-    //             fallback status
-    //             color colorCode
-    //             title status
-    //             title_link env.RUN_DISPLAY_URL
-    //             text fullMsg
-    //             fields([
-    //                 {
-    //                             title 'Priority'
-    //                             value 'High'
-    //                             'short' false
-    //                 }
-    //             ])
-    //             image_url 'http://my-website.com/path/to/image.jpg'
-    //             thumb_url 'http://example.com/path/to/thumb.png'
-    //             footer 'Slack API'
-    //             footer_icon 'https://platform.slack-edge.com/img/default_application_icon.png'
-    //             ts 123456789
-    //         }
+    attachment.put('fallback', status)
+    attachment.put('color', colorCode)
+    attachment.put('title', status)
+    attachment.put('title_link', env.RUN_DISPLAY_URL)
+    attachment.put('text', fullMsg)
 
-    //     ])
-    // }
+    JSONArray fields = new JSONArray()
+    JSONObject commit = new JSONObject()
+    commit.put('title', ':pr:')
+    commit.put('value', commitURL)
+    commit.put('short', false)
+    fields.add(commit)
 
-    // return JsonOutput.toJson([
-    //     attachments: [[
-    //         fallback: status,
-    //         color: colorCode,
-    //         title: status,
-    //         title_link: env.RUN_DISPLAY_URL,
-    //         text: fullMsg,
-    //         fields: [
-    //             [
-    //                 title: ':pr:',
-    //                 value: commitURL,
-    //                 'short': false
-    //             ],
-    //             [
-    //                 title: 'Committer',
-    //                 value: author,
-    //                 'short': true
-    //             ],
-    //             [
-    //                 title: ':github:',
-    //                 value: githubLink,
-    //                 'short': true
-    //             ]
-    //         ],
-    //     ]]]
-    // )
+    JSONObject committer = new JSONObject()
+    commit.put('title', 'Commiter')
+    commit.put('value', author)
+    commit.put('short', false)
+    fields.add(committer)
+
+    JSONObject ghLink = new JSONObject()
+    commit.put('title', ':github:')
+    commit.put('value', githubLink)
+    commit.put('short', false)
+    fields.add(ghLink)
+
+    attachment.add(fields)
+    attachments.add(attachment);
+    return attachments.toString()
 }
