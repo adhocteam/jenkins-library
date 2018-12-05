@@ -29,21 +29,21 @@ def call(String name, Boolean failed=false) {
 
     JSONArray fields = new JSONArray()
     JSONObject commit = new JSONObject()
-    commit.put('title', 'PR')
+    commit.put('title', ':pr:')
     commit.put('value', commitURL.toString())
     commit.put('short', true)
     fields.add(commit)
 
     JSONObject committer = new JSONObject()
-    commit.put('title', 'Commiter')
-    commit.put('value', author)
-    commit.put('short', true)
+    commiter.put('title', 'Commiter')
+    commiter.put('value', author)
+    committer.put('short', true)
     fields.add(committer)
 
     JSONObject ghLink = new JSONObject()
-    commit.put('title', ':github:')
-    commit.put('value', githubLink.toString())
-    commit.put('short', true)
+    ghLink.put('title', ':github:')
+    ghLink.put('value', githubLink.toString())
+    ghLink.put('short', true)
     fields.add(ghLink)
 
     attachment.put('fields', fields)
