@@ -3,7 +3,7 @@ import net.sf.json.JSONObject
 
 def call(String name, Boolean failed=false) {
     def colorCode = '#00FF00'
-    def status = : ":github-check: ${name} Deployment Success"
+    def status = ":github-check: ${name} Deployment Success"
     if (failed) {
         colorCode = '#118762'
         status = ":no_entry: ${name} Deployment Failed"
