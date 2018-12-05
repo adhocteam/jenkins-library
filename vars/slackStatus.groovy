@@ -2,8 +2,8 @@ import net.sf.json.JSONArray
 import net.sf.json.JSONObject
 
 def call(String name, Boolean failed=false) {
-    String colorCode = '#118762'
-    String status = ":github-check: ${name} Deployment Success"
+    def colorCode = failed ? '#FF0000' : '#118762'
+    def status = failed ? ":no_entry: ${name} Deployment Failed" : ":github-check: ${name} Deployment Success"
 
     def githubURL = env.GIT_URL[0..-5]
     def githubLink = "<${githubURL}|keyreport>"
@@ -16,9 +16,9 @@ def call(String name, Boolean failed=false) {
     JSONArray attachments = new JSONArray()
     JSONObject attachment = new JSONObject()
 
-    attachment.put('fallback', status)
+    attachment.put('fallback', status.toString())
     attachment.put('color', colorCode)
-    attachment.put('title', status)
+    attachment.put('title', status.toString())
     attachment.put('title_link', env.RUN_DISPLAY_URL)
     attachment.put('text', fullMsg)
 
