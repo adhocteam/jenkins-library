@@ -4,6 +4,7 @@ import net.sf.json.JSONObject
 def call(String name, Boolean failed=false) {
     def colorCode = failed ? '#FF0000' : '#118762'
     def attachment = getAttachment(name, failed)
+    steps.echo(attachment.toString())
 
     slackSend(color: colorCode, channel: '@bob', attachments: attachment.toString())
 }
