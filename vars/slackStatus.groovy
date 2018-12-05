@@ -4,10 +4,6 @@ import net.sf.json.JSONObject
 def call(String name, Boolean failed=false) {
     String colorCode = '#118762'
     String status = ":github-check: ${name} Deployment Success"
-    if (failed) {
-        colorCode = '#FF0000'
-        status = ":no_entry: ${name} Deployment Failed"
-    }
 
     def githubURL = env.GIT_URL[0..-5]
     def githubLink = "<${githubURL}|keyreport>"
