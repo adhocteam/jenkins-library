@@ -17,10 +17,13 @@ def call(Map config) {
     def fullMsg = sh(returnStdout: true, script: 'git log -1 --pretty="%B"').trim()
     def author = sh(returnStdout: true, script: 'git log -1 --pretty="%an"').trim()
 
-    def prNum = extractPR(shortMsg)
+    def prNum = ""
+
+    try { prNum = extractPR(shortMsg) }
+    catch (err) {}
 
     def commitURL = "<${githubURL}/commit/${env.GIT_COMMIT}|${env.GIT_COMMIT[0..6]}>"
-    if (pr) {
+    if (prNum) {
         //Get the matched group with the number
         commitURL = "<${githubURL}/pulls/${prNum}|PR-${prNum}>"
     }
