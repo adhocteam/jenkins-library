@@ -21,9 +21,9 @@ def call(String name, Boolean failed=false) {
     JSONArray attachments = new JSONArray()
     JSONObject attachment = new JSONObject()
 
-    attachment.put('fallback', status)
+    attachment.put('fallback', status.toString())
     attachment.put('color', colorCode)
-    attachment.put('title', status)
+    attachment.put('title', status.toString())
     attachment.put('title_link', env.RUN_DISPLAY_URL)
     attachment.put('text', fullMsg)
 
