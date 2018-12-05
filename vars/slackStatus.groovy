@@ -3,10 +3,49 @@ import net.sf.json.JSONObject
 
 def call(String name, Boolean failed=false) {
     def colorCode = failed ? '#FF0000' : '#118762'
-    def attachment = getAttachment(name, failed)
-    steps.echo(attachment.toString())
+    //def attachment = getAttachment(name, failed)
 
-    slackSend(color: colorCode, channel: '@bob', attachments: attachment.toString())
+    def status = failed ? ":no_entry: ${name} Deployment Failed" : ":github-check: ${name} Deployment Success"
+    def shortMsg = sh(returnStdout: true, script: 'git log -1 --pretty="%s"').trim()
+    def fullMsg = sh(returnStdout: true, script: 'git log -1 --pretty="%B"').trim()
+    def author = sh(returnStdout: true, script: 'git log -1 --pretty="%an"').trim()
+    def commitURL = "<${githubURL}/commit/${env.GIT_COMMIT}|${env.GIT_COMMIT[0..6]}>"
+
+    def githubURL = env.GIT_URL[0..-5]
+    def githubLink = "<${githubURL}|keyreport>"
+
+    JSONArray attachments = new JSONArray()
+    JSONObject attachment = new JSONObject()
+
+    attachment.put('fallback', status)
+    attachment.put('color', colorCode)
+    attachment.put('title', status)
+    attachment.put('title_link', env.RUN_DISPLAY_URL)
+    attachment.put('text', fullMsg)
+
+    JSONArray fields = new JSONArray()
+    JSONObject commit = new JSONObject()
+    commit.put('title', ':pr:')
+    commit.put('value', commitURL)
+    commit.put('short', false)
+    fields.add(commit)
+
+    JSONObject committer = new JSONObject()
+    commit.put('title', 'Commiter')
+    commit.put('value', author)
+    commit.put('short', false)
+    fields.add(committer)
+
+    JSONObject ghLink = new JSONObject()
+    commit.put('title', ':github:')
+    commit.put('value', githubLink)
+    commit.put('short', false)
+    fields.add(ghLink)
+
+    attachment.add(fields)
+    attachments.add(attachment);
+
+    slackSend(color: colorCode, channel: '@bob', attachments: attachments.toString())
 }
 
 @NonCPS
