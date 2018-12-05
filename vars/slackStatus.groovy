@@ -4,7 +4,7 @@ import net.sf.json.JSONObject
 def call(String name, Boolean failed=false) {
     echo "Starting library call"
 
-    def colorCode = failed ? '#FF0000' : '#118762'
+    def colorCode = failed ? '#0000FF' : '#118762'
     //def attachment = getAttachment(name, failed)
 
     def githubURL = env.GIT_URL[0..-5]
@@ -15,6 +15,8 @@ def call(String name, Boolean failed=false) {
     def fullMsg = sh(returnStdout: true, script: 'git log -1 --pretty="%B"').trim()
     def author = sh(returnStdout: true, script: 'git log -1 --pretty="%an"').trim()
     def commitURL = "<${githubURL}/commit/${env.GIT_COMMIT}|${env.GIT_COMMIT[0..6]}>"
+
+    echo
 
     JSONArray attachments = new JSONArray()
     JSONObject attachment = new JSONObject()
@@ -49,7 +51,7 @@ def call(String name, Boolean failed=false) {
 
     echo attachments.toString()
 
-    slackSend(color: colorCode, channel: '@bob', attachments: attachments.toString())
+    slackSend(channel: '@bob', attachments: attachments.toString())
 }
 
 @NonCPS
