@@ -4,7 +4,7 @@ import net.sf.json.JSONObject
 def call(String name, Boolean failed=false) {
     steps.echo("Starting library call")
 
-    def colorCode = failed ? '#0000FF' : '#118762'
+    def colorCode = failed ? '#00FF00' : '#118762'
     //def attachment = getAttachment(name, failed)
 
     def githubURL = env.GIT_URL[0..-5]
@@ -27,26 +27,26 @@ def call(String name, Boolean failed=false) {
     attachment.put('title_link', env.RUN_DISPLAY_URL)
     attachment.put('text', fullMsg)
 
-    // JSONArray fields = new JSONArray()
-    // JSONObject commit = new JSONObject()
-    // commit.put('title', ':pr:')
-    // commit.put('value', commitURL)
-    // commit.put('short', false)
-    // fields.add(commit)
+    JSONArray fields = new JSONArray()
+    JSONObject commit = new JSONObject()
+    commit.put('title', ':pr:')
+    commit.put('value', commitURL.toString())
+    commit.put('short', false)
+    fields.add(commit)
 
-    // JSONObject committer = new JSONObject()
-    // commit.put('title', 'Commiter')
-    // commit.put('value', author)
-    // commit.put('short', false)
-    // fields.add(committer)
+    JSONObject committer = new JSONObject()
+    commit.put('title', 'Commiter')
+    commit.put('value', author)
+    commit.put('short', false)
+    fields.add(committer)
 
-    // JSONObject ghLink = new JSONObject()
-    // commit.put('title', ':github:')
-    // commit.put('value', githubLink)
-    // commit.put('short', false)
-    // fields.add(ghLink)
+    JSONObject ghLink = new JSONObject()
+    commit.put('title', ':github:')
+    commit.put('value', githubLink.toString())
+    commit.put('short', false)
+    fields.add(ghLink)
 
-    // attachment.put('fields', fields)
+    attachment.put('fields', fields)
     attachments.add(attachment);
 
     echo attachments.toString()
