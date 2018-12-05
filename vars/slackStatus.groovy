@@ -5,7 +5,7 @@ def call(String name, Boolean failed=false) {
     def colorCode = failed ? '#FF0000' : '#118762'
     def attachment = getAttachment(name, failed)
 
-    slackSend(color: colorCode, channel: '@bob', attachments: attachment)
+    slackSend(color: colorCode, channel: '@bob', attachments: attachment.toString())
 }
 
 @NonCPS
@@ -61,5 +61,5 @@ def getAttachment(String name, Boolean failed=false) {
 
     attachment.add(fields)
     attachments.add(attachment);
-    return attachments.toString()
+    return attachments
 }
