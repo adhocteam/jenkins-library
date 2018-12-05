@@ -29,21 +29,21 @@ def call(String name, Boolean failed=false) {
 
     JSONArray fields = new JSONArray()
     JSONObject commit = new JSONObject()
-    commit.put('title', ':pr:')
+    commit.put('title', 'PR')
     commit.put('value', commitURL.toString())
-    commit.put('short', false)
+    commit.put('short', true)
     fields.add(commit)
 
     JSONObject committer = new JSONObject()
     commit.put('title', 'Commiter')
     commit.put('value', author)
-    commit.put('short', false)
+    commit.put('short', true)
     fields.add(committer)
 
     JSONObject ghLink = new JSONObject()
     commit.put('title', ':github:')
     commit.put('value', githubLink.toString())
-    commit.put('short', false)
+    commit.put('short', true)
     fields.add(ghLink)
 
     attachment.put('fields', fields)
@@ -88,7 +88,7 @@ def getAttachment(String name, Boolean failed=false) {
 
     JSONArray fields = new JSONArray()
     JSONObject commit = new JSONObject()
-    commit.put('title', ':pr:')
+    commit.put('title', 'pr')
     commit.put('value', commitURL)
     commit.put('short', false)
     fields.add(commit)
@@ -100,7 +100,7 @@ def getAttachment(String name, Boolean failed=false) {
     fields.add(committer)
 
     JSONObject ghLink = new JSONObject()
-    commit.put('title', ':github:')
+    commit.put('title', 'github')
     commit.put('value', githubLink)
     commit.put('short', false)
     fields.add(ghLink)
