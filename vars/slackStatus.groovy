@@ -2,10 +2,10 @@ import net.sf.json.JSONArray
 import net.sf.json.JSONObject
 
 def call(String name, Boolean failed=false) {
-    def colorCode = '#00FF00'
-    def status = ":github-check: ${name} Deployment Success"
+    String colorCode = '#118762'
+    String status = ":github-check: ${name} Deployment Success"
     if (failed) {
-        colorCode = '#118762'
+        colorCode = '#FF0000'
         status = ":no_entry: ${name} Deployment Failed"
     }
 
@@ -20,24 +20,24 @@ def call(String name, Boolean failed=false) {
     JSONArray attachments = new JSONArray()
     JSONObject attachment = new JSONObject()
 
-    attachment.put('fallback', status.toString())
+    attachment.put('fallback', status)
     attachment.put('color', colorCode)
-    attachment.put('title', status.toString())
+    attachment.put('title', status)
     attachment.put('title_link', env.RUN_DISPLAY_URL)
     attachment.put('text', fullMsg)
 
     JSONArray fields = new JSONArray()
-    JSONObject commit = new JSONObject()
-    commit.put('title', ':github-merged:')
-    commit.put('value', commitURL.toString())
-    commit.put('short', true)
-    fields.add(commit)
-
     JSONObject committer = new JSONObject()
     committer.put('title', 'Commiter')
     committer.put('value', author)
     committer.put('short', true)
     fields.add(committer)
+
+    JSONObject commit = new JSONObject()
+    commit.put('title', ':github-merged:')
+    commit.put('value', commitURL.toString())
+    commit.put('short', true)
+    fields.add(commit)
 
     JSONObject ghLink = new JSONObject()
     ghLink.put('title', ':github:')
