@@ -42,7 +42,7 @@ def call(String name, Boolean failed=false) {
     commit.put('short', false)
     fields.add(ghLink)
 
-    attachment.put(fields)
+    attachment.put('fields', fields)
     attachments.add(attachment);
 
     slackSend(color: colorCode, channel: '@bob', attachments: attachments.toString())
