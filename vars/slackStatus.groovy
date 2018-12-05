@@ -5,14 +5,14 @@ def call(String name, Boolean failed=false) {
     def colorCode = failed ? '#FF0000' : '#118762'
     //def attachment = getAttachment(name, failed)
 
+    def githubURL = env.GIT_URL[0..-5]
+    def githubLink = "<${githubURL}|keyreport>"
+
     def status = failed ? ":no_entry: ${name} Deployment Failed" : ":github-check: ${name} Deployment Success"
     def shortMsg = sh(returnStdout: true, script: 'git log -1 --pretty="%s"').trim()
     def fullMsg = sh(returnStdout: true, script: 'git log -1 --pretty="%B"').trim()
     def author = sh(returnStdout: true, script: 'git log -1 --pretty="%an"').trim()
     def commitURL = "<${githubURL}/commit/${env.GIT_COMMIT}|${env.GIT_COMMIT[0..6]}>"
-
-    def githubURL = env.GIT_URL[0..-5]
-    def githubLink = "<${githubURL}|keyreport>"
 
     JSONArray attachments = new JSONArray()
     JSONObject attachment = new JSONObject()
