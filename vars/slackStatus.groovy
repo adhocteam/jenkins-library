@@ -1,7 +1,10 @@
 import net.sf.json.JSONArray
 import net.sf.json.JSONObject
 
-def call(String name, Boolean failed=false) {
+def call(Map config) {
+    def name = config.get('name', 'reponame')
+    def failed = config.get('failed', false)
+
     def colorCode = failed ? '#FF0000' : '#118762'
     def status = failed ? ":no_entry: ${name} Deployment Failed" : ":github-check: ${name} Deployment Success"
 
