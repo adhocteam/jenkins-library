@@ -2,7 +2,7 @@ import net.sf.json.JSONArray
 import net.sf.json.JSONObject
 
 def call(Map config) {
-    def repoName = extractRepoName
+    def repoName = extractRepoName()
     def name = config.get('name', repoName)
     def failed = config.get('failed', false)
 
@@ -62,7 +62,7 @@ def call(Map config) {
 }
 
 @NonCPS
-def extractRepoName() = { (env.GIT_URL =~ /.*\/([^\/]+).git/)[0][1] }
+def extractRepoName() { (env.GIT_URL =~ /.*\/([^\/]+).git/)[0][1] }
 
 @NonCPS
-def extractPR(shortMsg) = { shortMsg =~ /.*#([0-9]+).*/ }
+def extractPR(shortMsg) { shortMsg =~ /.*#([0-9]+).*/ }
