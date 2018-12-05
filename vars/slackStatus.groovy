@@ -2,21 +2,20 @@ import net.sf.json.JSONArray
 import net.sf.json.JSONObject
 
 def call(String name, Boolean failed=false) {
-    steps.echo("Starting library call")
-
-    def colorCode = failed ? '#00FF00' : '#118762'
-    //def attachment = getAttachment(name, failed)
+    def colorCode = '#00FF00'
+    def status = : ":github-check: ${name} Deployment Success"
+    if (failed) {
+        colorCode = '#118762'
+        status = ":no_entry: ${name} Deployment Failed"
+    }
 
     def githubURL = env.GIT_URL[0..-5]
     def githubLink = "<${githubURL}|keyreport>"
 
-    def status = failed ? ":no_entry: ${name} Deployment Failed" : ":github-check: ${name} Deployment Success"
     def shortMsg = sh(returnStdout: true, script: 'git log -1 --pretty="%s"').trim()
     def fullMsg = sh(returnStdout: true, script: 'git log -1 --pretty="%B"').trim()
     def author = sh(returnStdout: true, script: 'git log -1 --pretty="%an"').trim()
     def commitURL = "<${githubURL}/commit/${env.GIT_COMMIT}|${env.GIT_COMMIT[0..6]}>"
-
-    steps.echo(status)
 
     JSONArray attachments = new JSONArray()
     JSONObject attachment = new JSONObject()
@@ -29,7 +28,7 @@ def call(String name, Boolean failed=false) {
 
     JSONArray fields = new JSONArray()
     JSONObject commit = new JSONObject()
-    commit.put('title', ':pr:')
+    commit.put('title', ':github-merged:')
     commit.put('value', commitURL.toString())
     commit.put('short', true)
     fields.add(commit)
@@ -51,7 +50,7 @@ def call(String name, Boolean failed=false) {
 
     echo attachments.toString()
 
-    slackSend(channel: '@bob', attachments: attachments.toString())
+    slackSend(color: colorCode, channel: '@bob', attachments: attachments.toString())
 }
 
 @NonCPS
