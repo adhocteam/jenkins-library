@@ -2,7 +2,7 @@ import net.sf.json.JSONArray
 import net.sf.json.JSONObject
 
 def call(String name, Boolean failed=false) {
-    echo "Starting library call"
+    steps.echo("Starting library call")
 
     def colorCode = failed ? '#0000FF' : '#118762'
     //def attachment = getAttachment(name, failed)
@@ -16,7 +16,7 @@ def call(String name, Boolean failed=false) {
     def author = sh(returnStdout: true, script: 'git log -1 --pretty="%an"').trim()
     def commitURL = "<${githubURL}/commit/${env.GIT_COMMIT}|${env.GIT_COMMIT[0..6]}>"
 
-    echo
+    steps.echo(status)
 
     JSONArray attachments = new JSONArray()
     JSONObject attachment = new JSONObject()
