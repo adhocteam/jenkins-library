@@ -35,8 +35,8 @@ def call(String name, Boolean failed=false) {
     fields.add(commit)
 
     JSONObject committer = new JSONObject()
-    commiter.put('title', 'Commiter')
-    commiter.put('value', author)
+    committer.put('title', 'Commiter')
+    committer.put('value', author)
     committer.put('short', true)
     fields.add(committer)
 
