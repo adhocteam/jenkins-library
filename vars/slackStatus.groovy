@@ -17,12 +17,12 @@ def call(Map config) {
     def fullMsg = sh(returnStdout: true, script: 'git log -1 --pretty="%B"').trim()
     def author = sh(returnStdout: true, script: 'git log -1 --pretty="%an"').trim()
 
-    def pr = extractPR(shortMsg)
+    def prNum = extractPR(shortMsg)
 
     def commitURL = "<${githubURL}/commit/${env.GIT_COMMIT}|${env.GIT_COMMIT[0..6]}>"
     if (pr) {
         //Get the matched group with the number
-        commitURL = "<${githubURL}/pulls/${pr[0][1]}|PR-${pr[0][1]}>"
+        commitURL = "<${githubURL}/pulls/${prNum}|PR-${prNum}>"
     }
 
     JSONArray attachments = new JSONArray()
@@ -65,4 +65,4 @@ def call(Map config) {
 def extractRepoName() { (env.GIT_URL =~ /.*\/([^\/]+).git/)[0][1] }
 
 @NonCPS
-def extractPR(shortMsg) { shortMsg =~ /.*#([0-9]+).*/ }
+def extractPR(shortMsg) { (shortMsg =~ /.*#([0-9]+).*/)[0][1] }
