@@ -19,6 +19,7 @@ def call(Map config) {
 
     def prNum = ""
 
+    // Swallow the error if no PR number found
     try { prNum = extractPR(shortMsg) }
     catch (err) {}
 
@@ -61,7 +62,9 @@ def call(Map config) {
 
     echo attachments.toString()
 
-    slackSend(color: colorCode, channel: '@bob', attachments: attachments.toString())
+    def slackChannel = config.get('channel', '#inf-alerts')
+
+    slackSend(color: colorCode, channel: slackChannel, attachments: attachments.toString())
 }
 
 @NonCPS
