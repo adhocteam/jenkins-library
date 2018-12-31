@@ -6,19 +6,19 @@ def call(Map params) {
     }
 
     stages {
-    stage('Build preview site') {
-      when { changeRequest() }
-      agent {
-        dockerfile {
-          reuseNode true
-          args "-e PR_ID=$CHANGE_ID"
+      stage('Build preview site') {
+        when { changeRequest() }
+        agent {
+          dockerfile {
+            reuseNode true
+            args "-e PR_ID=$CHANGE_ID"
+          }
+        }
+        steps {
+          sh 'gatsby build --prefix-paths'
         }
       }
-      steps {
-        sh 'gatsby build --prefix-paths'
-      }
-    }
-    stage('Deploy preview') {
+      stage('Deploy preview') {
         when { changeRequest() }
         steps {
           sh "aws s3 sync public s3://preview.${params.url}/$CHANGE_ID --delete --no-progress --acl public-read"
@@ -66,3 +66,4 @@ def call(Map params) {
       }
     }
   }
+}
