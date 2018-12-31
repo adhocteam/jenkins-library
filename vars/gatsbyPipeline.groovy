@@ -6,23 +6,13 @@ def call(Map params) {
     }
 
     stages {
-      stage ('Install dependencies') {
-        agent {
-          dockerfile {
-            reuseNode true
-          }
-        }
-        steps {
-          sh 'npm install'
-        }
-      }
 
       stage('Build preview site') {
         when { changeRequest() }
         agent {
           dockerfile {
             reuseNode true
-            args "-e PR_ID=$CHANGE_ID"
+            args "-e PR_ID=$CHANGE_ID -w /site -v $WORKSPACE/public:/site/public"
           }
         }
         steps {
@@ -50,6 +40,7 @@ def call(Map params) {
         agent {
           dockerfile {
             reuseNode true
+            args "-w /site -v $WORKSPACE/public:/site/public"
           }
         }
         steps {
