@@ -12,7 +12,7 @@ def call(Map params) {
         agent {
           dockerfile {
             reuseNode true
-            args "-e PR_ID=$CHANGE_ID -w /site -v ${PWD}/public:/site/public"
+            args "-e PR_ID=$CHANGE_ID -w /site -v `pwd`/public:/site/public"
           }
         }
         steps {
