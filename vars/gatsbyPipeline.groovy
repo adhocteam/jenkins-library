@@ -7,12 +7,18 @@ def call(Map params) {
 
     stages {
 
+      stage('env') {
+        steps {
+          sh 'printenv'
+        }
+      }
+
       stage('Build preview site') {
         when { changeRequest() }
         agent {
           dockerfile {
             reuseNode true
-            args "-e PR_ID=$CHANGE_ID -w /site -v `pwd`/public:/site/public"
+            args "-e PR_ID=$CHANGE_ID -w /site -v ${env.WORKSPACE}/public:/site/public"
           }
         }
         steps {
