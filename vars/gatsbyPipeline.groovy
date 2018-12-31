@@ -17,9 +17,10 @@ def call(Map params) {
         }
         steps {
           sh '''
-            pushd /site
+            set -eux
+            cd /site
             npm run preview
-            popd
+            cd -
             cp -r /site/public .
             '''
         }
