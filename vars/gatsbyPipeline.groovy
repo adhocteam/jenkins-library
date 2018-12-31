@@ -1,6 +1,6 @@
 def call(Map params) {
 
-  def WORKSPACE = env.WORKSPACE
+  def WORKSPACE = sh(returnStdout: true, script: 'pwd').trim()
 
   pipeline {
     agent {
