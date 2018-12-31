@@ -15,7 +15,7 @@ def call(Map params) {
           }
         }
         steps {
-          sh 'gatsby build --prefix-paths'
+          sh 'npm run preview'
         }
       }
       stage('Deploy preview') {
@@ -26,7 +26,7 @@ def call(Map params) {
         post {
           success {
             script {
-              pullRequest.comment("${params.name} preview generated at http://preview.${params.url}.s3-website-us-east-1.amazonaws.com/$CHANGE_ID")
+              pullRequest.comment("${params.name} preview generated at http://preview.${params.url}/$CHANGE_ID")
             }
           }
         }
@@ -41,7 +41,7 @@ def call(Map params) {
           }
         }
         steps {
-          sh 'gatsby build'
+          sh 'npm run build'
         }
       }
       stage('Deploy production') {
