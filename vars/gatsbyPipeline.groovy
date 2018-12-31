@@ -1,7 +1,5 @@
 def call(Map params) {
 
-  def WORKSPACE = sh(returnStdout: true, script: 'pwd').trim()
-
   pipeline {
     agent {
       label 'general'
@@ -14,11 +12,11 @@ def call(Map params) {
         agent {
           dockerfile {
             reuseNode true
-            args "-e PR_ID=$CHANGE_ID -w /site -v $WORKSPACE/public:/site/public"
+            args "-e PR_ID=$CHANGE_ID"
           }
         }
         steps {
-          sh 'npm run preview'
+          sh 'npm install && npm run preview'
         }
       }
 
