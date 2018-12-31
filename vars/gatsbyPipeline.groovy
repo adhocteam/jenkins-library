@@ -6,6 +6,17 @@ def call(Map params) {
     }
 
     stages {
+      stage ('Install dependencies') {
+        agent {
+          dockerfile {
+            reuseNode true
+          }
+        }
+        steps {
+          sh 'npm install'
+        }
+      }
+
       stage('Build preview site') {
         when { changeRequest() }
         agent {
@@ -18,6 +29,7 @@ def call(Map params) {
           sh 'npm run preview'
         }
       }
+
       stage('Deploy preview') {
         when { changeRequest() }
         steps {
