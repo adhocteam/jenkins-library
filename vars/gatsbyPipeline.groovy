@@ -16,7 +16,12 @@ def call(Map params) {
           }
         }
         steps {
-          sh 'npm install && npm run preview'
+          sh '''
+            pushd /site
+            npm run preview
+            popd
+            cp -r /site/public .
+            '''
         }
       }
 
