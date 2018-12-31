@@ -6,6 +6,8 @@ def call(body) {
   body.delegate = params
   body()
 
+  params.pr = env.CHANGE_ID ? env.CHANGE_ID : ""
+
   pipeline {
     agent {
       label 'general'
@@ -18,7 +20,7 @@ def call(body) {
         agent {
           dockerfile {
             reuseNode true
-            args "-e PR_ID=$CHANGE_ID"
+            args "-e PR_ID=${params.pr}"
           }
         }
         steps {
@@ -35,12 +37,12 @@ def call(body) {
       stage('Deploy preview') {
         when { changeRequest() }
         steps {
-          sh "aws s3 sync public s3://preview.${params.url}/$CHANGE_ID --delete --no-progress --acl public-read"
+          sh "aws s3 sync public s3://preview.${params.url}/${params.pr} --delete --no-progress --acl public-read"
         }
         post {
           success {
             script {
-              pullRequest.comment("${params.name} preview generated at http://preview.${params.url}/$CHANGE_ID/")
+              pullRequest.comment("${params.name} preview generated at http://preview.${params.url}/${params.pr}/")
             }
           }
         }
