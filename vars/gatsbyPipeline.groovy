@@ -1,4 +1,10 @@
-def call(Map params) {
+def call(body) {
+
+  // evaluate the body block, and collect configuration into the object
+  def params= [:]
+  body.resolveStrategy = Closure.DELEGATE_FIRST
+  body.delegate = params
+  body()
 
   pipeline {
     agent {
@@ -34,7 +40,7 @@ def call(Map params) {
         post {
           success {
             script {
-              pullRequest.comment("${params.name} preview generated at http://preview.${params.url}/$CHANGE_ID")
+              pullRequest.comment("${params.name} preview generated at http://preview.${params.url}/$CHANGE_ID/")
             }
           }
         }
@@ -46,11 +52,16 @@ def call(Map params) {
         agent {
           dockerfile {
             reuseNode true
-            args "-w /site -v ./public:/site/public"
           }
         }
         steps {
-          sh 'npm run build'
+          sh '''
+            set -eux
+            cd /site
+            npm run build
+            cd -
+            cp -r /site/public .
+            '''
         }
       }
       stage('Deploy production') {
