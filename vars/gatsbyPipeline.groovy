@@ -1,5 +1,7 @@
 def call(Map params) {
 
+  def WORKSPACE = env.WORKSPACE
+
   pipeline {
     agent {
       label 'general'
@@ -12,7 +14,7 @@ def call(Map params) {
         agent {
           dockerfile {
             reuseNode true
-            args "-e PR_ID=$CHANGE_ID -w /site -v \"$WORKSPACE/public:/site/public\""
+            args "-e PR_ID=$CHANGE_ID -w /site -v $WORKSPACE/public:/site/public"
           }
         }
         steps {
