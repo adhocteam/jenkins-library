@@ -51,10 +51,10 @@ def call(body) {
         }
         post {
           success {
-            slackDeployStatus name: "${params.description}"
+            slackDeployStatus name: "${params.name}"
           }
           failure {
-            slackDeployStatus name: "${params.description}", failed: true
+            slackDeployStatus name: "${params.name}", failed: true
           }
         }
       }
