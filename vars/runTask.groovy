@@ -16,6 +16,9 @@ def call(Map config) {
                     'Name=tag:name,Values=app-sub-*' \
         | jq --raw-output '.Subnets[0].SubnetId'"""
 
+    echo "Getting data from AWS"
+    def sg_id = sh(returnStdout: true, script: getSecurityGroup).trim()
+    def subnet_id = sh(returnStdout: true, script: getSubnet).trim()
 
     def startTask = """aws ecs run-task \
         --region=us-east-1 \
@@ -26,11 +29,6 @@ def call(Map config) {
         --launch-type FARGATE \
         --network-configuration "awsvpcConfiguration={subnets=[${subnet_id}],securityGroups=[${sg_id}],assignPublicIp=DISABLED}" \
         | jq --raw-output '.tasks[0].taskArn'"""
-
-
-    echo "Getting data from AWS"
-    def sg_id = sh(returnStdout: true, script: getSecurityGroup).trim()
-    def subnet_id = sh(returnStdout: true, script: getSubnet).trim()
 
     echo "Scheduling task with command: ${command}"
     def task_arn = sh(returnStdout: true, script: startTask).trim()
