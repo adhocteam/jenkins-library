@@ -43,7 +43,7 @@ def call(Map config) {
 
     // Wait for AWS to schedule and execute our task
     sleep 10
-    for (i in 1..10) {
+    for (i = 1; i <= 10; i++) { {
 
         def status = sh(returnStdout: true, script: getStatus).trim()
         echo "Task status: ${status}"
