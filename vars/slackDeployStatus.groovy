@@ -40,7 +40,7 @@ def call(Map config) {
 
     JSONArray fields = new JSONArray()
     JSONObject committer = new JSONObject()
-    committer.put('title', 'Commiter')
+    committer.put('title', 'Committer')
     committer.put('value', author)
     committer.put('short', true)
     fields.add(committer)
