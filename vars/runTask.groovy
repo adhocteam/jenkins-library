@@ -2,7 +2,7 @@ def call(Map config) {
 
     def env = config.get('env', 'dev')
     def app = config.get('app', 'api-dev')
-    def command = confgit.get('command', '["bundle", "exec", "rake", "db:migrate"]')
+    def command = config.get('command', '["bundle", "exec", "rake", "db:migrate"]')
 
 
     def getSecurityGroup = """aws ec2 describe-security-groups \
