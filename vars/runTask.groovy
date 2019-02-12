@@ -60,7 +60,7 @@ def call(Map config) {
         --tasks "${task_arn}" \
         | jq --raw-output '.tasks[0].containers[0].exitCode'"""
 
-    def exit_code = sh(returnStdout: true, script: getExitCode).trim()
+    def exit_code = sh(returnStdout: true, script: getExitCode).trim().toInteger()
     echo "Exit Code: ${exit_code}"
 
     if (exit_code > 0) {
