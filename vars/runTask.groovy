@@ -6,12 +6,14 @@ def call(Map config) {
 
 
     def getSecurityGroup = """aws ec2 describe-security-groups \
+        --region=us-east-1 \
         --filters 'Name=tag:env,Values=${env}' \
                     'Name=tag:app,Values=${app}' \
                     'Name=group-name,Values=${app}-app-*' \
         | jq --raw-output '.SecurityGroups[0].GroupId'"""
 
     def getSubnet = """aws ec2 describe-subnets \
+        --region=us-east-1 \
         --filters 'Name=tag:env,Values=${env}' \
                     'Name=tag:name,Values=app-sub-*' \
         | jq --raw-output '.Subnets[0].SubnetId'"""
@@ -52,6 +54,7 @@ def call(Map config) {
     }
 
     def getExitCode = """aws ecs describe-tasks \
+        --region=us-east-1 \
         --cluster "${app}" \
         --tasks "${task_arn}" \
         | jq --raw-output '.tasks[0].containers[0].exitCode'"""
