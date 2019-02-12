@@ -37,6 +37,7 @@ def call(Map config) {
 
 
     def getStatus = """aws ecs describe-tasks \
+        --region=us-east-1 \
         --cluster "${app}" \
         --tasks "${task_arn}" \
         | jq --raw-output '.tasks[0].lastStatus'"""
