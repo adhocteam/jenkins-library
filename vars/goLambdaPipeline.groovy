@@ -21,6 +21,7 @@ def call(body) {
       stage("Build") {
         agent {
           dockerfile {
+            image 'adhocteam/gometalinter'
             reuseNode true
           }
         }
