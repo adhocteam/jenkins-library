@@ -13,11 +13,6 @@ def call(body) {
 
     stages {
       stage("Run golang validation") {
-        agent {
-          dockerfile {
-            reuseNode true
-            }
-        }
         steps {
           goMetaLinter()
         }
@@ -47,7 +42,7 @@ def call(body) {
       stage("Deploy") {
         when { branch 'master' }
         steps {
-            sh "aws lambda update-function-code --region us-east-1 --function-name arn:aws:lambda:us-east-1:${params.account}:function:${params.lambda} --s3-bucket adhoc.team-shared-lambda-releases --s3-key ${params.lambda}.zip --publish"
+            sh "aws lambda update-function-code --region us-east-1 --function-name arn:aws:lambda:us-east-1:${params.account}:function:${params.lambda} --s3-bucket adhoc.team-${params.env}-lambda-releases --s3-key ${params.lambda}.zip --publish"
         }
         post {
           success {
