@@ -36,7 +36,7 @@ def call(body) {
       stage("Release") {
         when { branch 'master' }
         steps {
-            sh "aws s3 cp pr_report.zip s3://adhoc.team-shared-lambda-releases/${params.lambda}.zip"
+            sh "aws s3 cp ${params.lambda}.zip s3://adhoc.team-${params.env}-lambda-releases/${params.lambda}.zip"
         }
       }
 
