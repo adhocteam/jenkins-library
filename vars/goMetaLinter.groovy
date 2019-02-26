@@ -1,5 +1,6 @@
 def call() {
-    sh '''set -eux
+    docker.image('adhocteam/gometalinter').inside() {
+        sh '''set -eux
         gometalinter \
             --disable-all \
             --enable deadcode \
@@ -20,4 +21,5 @@ def call() {
             --skip proto \
             --deadline 120s \
             ./...'''
+    }
 }

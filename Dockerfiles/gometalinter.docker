@@ -1,0 +1,15 @@
+FROM golang:1.11
+
+RUN apt-get update && apt-get install -y --no-install-recommends zip \
+  && rm -rf /var/lib/apt/lists/*
+
+# Install gometalinter
+RUN curl https://raw.githubusercontent.com/alecthomas/gometalinter/master/scripts/install.sh | sh
+
+# Setup jenkins user to avoid file permission issues
+RUN mkdir -p /home/jenkins/ \
+  && chown 1000:1000 /home/jenkins/ \
+  && groupadd -g 1000 jenkins \
+  && useradd -d "/home/jenkins/" -u 1000 -g 1000 -s /bin/bash jenkins
+
+ENTRYPOINT [ ]
