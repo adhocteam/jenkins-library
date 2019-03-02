@@ -16,24 +16,24 @@ def call(String repo, String environment, String url, Closure body) {
         "required_contexts": [],
         "description": "Starting deployment for ${environment}"
       }' | jq ".id"
-      """
+    """
 
-  def setStatus(String id, String status) {
-    return """
-      set -eu
+  def setStatus = { String id, String status ->
+    """
+    set -eu
 
-      curl --request POST \
-        --url "https://api.github.com/repos/adhocteam/${repo}/deployments/${id}/statuses" \
-        --header 'accept: application/vnd.github.ant-man-preview+json, application/vnd.github.flash-preview+json' \
-        --header "authorization: token \$GH_TOKEN" \
-        --header 'content-type: application/json' \
-        --data '{
-        "environment": "${environment}",
-        "state": "${status}",
-        "environment_url": "${url}",
-        "description": "Deployment to ${environment}: ${status}."
-        }'
-        """
+    curl --request POST \
+      --url "https://api.github.com/repos/adhocteam/${repo}/deployments/${id}/statuses" \
+      --header 'accept: application/vnd.github.ant-man-preview+json, application/vnd.github.flash-preview+json' \
+      --header "authorization: token \$GH_TOKEN" \
+      --header 'content-type: application/json' \
+      --data '{
+      "environment": "${environment}",
+      "state": "${status}",
+      "environment_url": "${url}",
+      "description": "Deployment to ${environment}: ${status}."
+      }'
+    """
   }
 
   try {
