@@ -44,7 +44,6 @@ def call(String repo, String environment, String url, Closure body) {
     body.call()
     status = "success"
   } catch (e) {
-    status = "failure"
     throw e
   } finally {
     script = setStatus(deployID, status)
