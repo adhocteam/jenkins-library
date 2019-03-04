@@ -36,21 +36,20 @@ def call(String repo, String environment, String url, Closure body) {
     """
   }
 
+  def status = ""
   try {
     withCredentials([string(credentialsId: 'github-token', variable: 'GH_TOKEN')]) {
       deployID = sh(returnStdout: true, script: createDeployment).trim()
     }
     body.call()
+    status = "success"
   } catch (e) {
-    script = setStatus(deployID, 'failure')
+    status = "failure"
+    throw e
+  } finally {
+    script = setStatus(deployID, status)
     withCredentials([string(credentialsId: 'github-token', variable: 'GH_TOKEN')]) {
       sh script
     }
-    throw e
-  }
-
-  script = setStatus(deployID, 'success')
-  withCredentials([string(credentialsId: 'github-token', variable: 'GH_TOKEN')]) {
-    sh script
   }
 }
