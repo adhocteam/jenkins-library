@@ -10,7 +10,7 @@ pipeline {
             steps {
                 sh """ set -e
                     for file in Dockerfiles/*; do
-                        docker build --pull --no-cache -t "adhocteam/$(basename $file .docker)" "$file"
+                        docker build --pull --no-cache -t "adhocteam/\$(basename \$file .docker)" "\$file"
                     done
                     """
             }
@@ -22,7 +22,7 @@ pipeline {
                 withDockerRegistry([ credentialsId: 'dockerhub-user', url: "" ]) {
                 sh """ set -e
                     for file in Dockerfiles/*; do
-                        docker push "adhocteam/$(basename $file .docker)""
+                        docker push "adhocteam/\$(basename \$file .docker)""
                     done
                     """
                 }
