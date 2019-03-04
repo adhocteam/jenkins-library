@@ -36,7 +36,7 @@ def call(String repo, String environment, String url, Closure body) {
     """
   }
 
-  def status = ""
+  def status = "failure"
   try {
     withCredentials([string(credentialsId: 'github-token', variable: 'GH_TOKEN')]) {
       deployID = sh(returnStdout: true, script: createDeployment).trim()
