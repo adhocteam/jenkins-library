@@ -1,5 +1,6 @@
 def call(String repo, String environment, String url, Closure body) {
   def deployID = ""
+  def branch_name = env.CHANGE_BRANCH ?: env.BRANCH_NAME
 
   def createDeployment = """
     set -eu
