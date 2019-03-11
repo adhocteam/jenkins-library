@@ -12,7 +12,7 @@ def call(String repo, String environment, String url, Closure body) {
       --header "authorization: token \$GH_TOKEN" \
       --header 'content-type: application/json' \
       --data '{
-        "ref": "${CHANGE_BRANCH}",
+        "ref": "${branch_name}",
         "environment": "${environment}",
         "required_contexts": [],
         "description": "Starting deployment for ${environment}"
