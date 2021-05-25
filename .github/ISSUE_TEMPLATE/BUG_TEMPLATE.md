@@ -5,7 +5,7 @@ about: Report a situation where the things are not working as designed
 
 <!--
 
-Do you want to ask a question? Are you looking for support? The #infrastructure channel in Ad Hoc slack is the best place for getting support.
+Do you want to ask a question? Are you looking for support? The #a-team channel in Ad Hoc slack is the best place for getting support.
 
 -->
 

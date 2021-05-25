@@ -62,7 +62,7 @@ def call(Map config) {
 
     echo attachments.toString()
 
-    def slackChannel = config.get('channel', '#inf-alerts')
+    def slackChannel = config.get('channel', '#a-team-alerts')
 
     slackSend(color: colorCode, channel: slackChannel, attachments: attachments.toString())
 }
